@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width">
+<title>Collection Oriented Programming IDE
+</title>
+
+<style>
+div.hider:hover{
+	background:lightgrey;
+	}
+#cmc td{
+	width:150px;
+	//color:red;
+}
+#vas td{
+	width:150px;
+	//color:orange;
+}
+.box{
+	height:160px;
+}
+</style>
+</head>
+
+<body>
+
+<div contenteditable="true">
+	<h1>Collection Oriented Programming</h1>
+	<p>Imagine OOP + Actor + Functional</p>
+</div>
+
+<table id="cmc" border="1" cellspacing="0">
+	<tr>
+		<td>1 Class</td>
+		<td>3 Message</td>
+		<td>5 Change</td>
+	</tr>
+	<tr>
+		<td class="box" id="box-class">{{Classes}}</td>
+		<td class="box" id="box-message">{{Messages}}</td>
+		<td class="box" id="box-change">{{Changes}}</td>
+	</tr>
+	<tr class="controls">
+		<td>
+			<input type="button" value="add class"
+				onclick="addClass( prompt('New Class') )"
+			/>
+			<input type="button" value="delete class"
+			/>
+		</td>
+		<td>
+			<input type="button" value="add message"
+			/>
+			<input type="button" value="delete message"
+			/>
+		</td>
+		<td>
+			<input type="button" value="add change"
+			/>
+			<input type="button" value="delete change"
+			/>
+		</td>
+	</tr>
+</table>
+<br>
+<table id="vas" border="1" cellspacing="0">
+	<tr>
+		<td>2 Value
+		</td>
+		<td>4 Args
+		</td>
+		<td>6 Send
+		</td>
+	</tr>
+	<tr>
+		<td class="box" id="box-value">{{Values}}
+		</td>
+		<td class="box" id="box-arg">{{Args}}
+		</td>
+		<td class="box" id="box-send">{{Sends}}
+		</td>
+	</tr>
+	<tr class="controls">
+		<td>
+			<input type="button" value="add value"
+			/>
+			<input type="button" value="delete value"
+			/>
+		</td>
+		<td>
+			<input type="button" value="add arg"
+			/>
+			<input type="button" value="delete arg"
+			/>
+		</td>
+		<td>
+			<input type="button" value="add send"
+			/>
+			<input type="button" value="delete send"
+			/>
+		</td>
+	</tr>
+</table>
+<br>
+
+<div id="explain" class="hider" onclick="toggle('explain')">
+<small>
+<ul>
+	<li>Every class has a list (or map) of its instances</li>
+	<li>Classes have private fields and public methods</li>
+	<li>Calling a method is actually queueing a message</li>
+	<li>A message is [name,argMap]</li>
+	<li>Classes process messages one at a time FIFO</li>
+	<li>Classes mutate, create, or destroy instances as a result of a message</li>
+	<li>Classes may also send any number of messages to other classes</li>
+	<li>In this way classes communicate using messages and only alter their own personal data</li>
+	<li>Messages have a sender and a receiver</li>
+	<li>Think of a class with its data as a list of rows in a spreadsheet</li>
+</ul>
+</small>
+</div>
+
+<script>
+	function addClass( className ){
+		put( 'class', className );
+		uiUpdateClass();
+	}
+	function uiUpdateClass(){
+	
+	}
+
+
+	function put( key, val ){
+		if (typeof(Storage) == "undefined") {
+			alert('Error: localStorage not supported\n'
+			+'Try a modern browser. Like chrome?');
+		}
+		localStorage.setItem(key, val);
+		return val;
+	}
+	function get( key ){
+		if (typeof(Storage) == "undefined") {
+			alert('Error: localStorage not supported\n'
+			+'Try a modern browser. Like chrome?');
+		}
+		var val = localStorage.getItem( key );
+		return val;
+	}
+	function assert(expr){
+		console.log('assert ',expr);
+		if( !expr ){
+			console.assert(expr);
+		}
+	}
+	function toggle(id) {
+		var el = document.getElementById(id);
+		//console.log('toggle',id, el.innerText);
+		if( el.innerText !== 'show-'+id){
+			put(id, el.innerText);
+			el.innerText='show-'+id;
+		}else{
+			el.innerText = get(id);
+		}
+	}
+	function hideHidden(){
+	}
+	assert( put(1,2) === 2 );
+	assert( get(1)==='2' );
+</script>
+</body>
+</html>
